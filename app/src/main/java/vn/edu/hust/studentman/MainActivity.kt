@@ -9,6 +9,7 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
 
@@ -127,6 +128,13 @@ class MainActivity : AppCompatActivity() {
         if (index != -1) {
           students.removeAt(index)
           adapter.notifyItemRemoved(index)
+
+          val snackbar = Snackbar.make(findViewById(R.id.main), "${student.studentName} has been removed", Snackbar.LENGTH_LONG)
+          snackbar.setAction("Undo") {
+            students.add(index, student)
+            adapter.notifyItemInserted(index)
+          }
+          snackbar.show()
         }
         dialogInterface.dismiss()
       }
